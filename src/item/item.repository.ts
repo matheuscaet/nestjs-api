@@ -18,4 +18,24 @@ export class ItemRepository extends Repository<Item> {
             return error
         }
     }
+
+    async getAllItems(){
+        try {    
+            return await Item.find({ 
+                select: ['name', 'desc', 'createdAt', 'updatedAt'],
+            })
+        } catch (error) {
+            return error
+        }
+    }
+
+    async getItemById(itemId: string){
+        try {    
+            return await Item.findOne(itemId, { 
+                select: ['name', 'desc', 'createdAt', 'updatedAt'],
+            })
+        } catch (error) {
+            return error
+        }
+    }
 }

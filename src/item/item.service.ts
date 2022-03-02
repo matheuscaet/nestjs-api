@@ -13,4 +13,12 @@ export class ItemService {
   async createItem(createItemDto: CreateItemDto){
       return this.itemRepository.createItem(createItemDto);
   }
+
+  async getAllItems(){
+    return this.itemRepository.getAllItems();
+  }
+  
+  async getItem(itemId: string){
+      return this.itemRepository.getItemById(itemId);
+  }
 }
