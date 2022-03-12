@@ -1,6 +1,6 @@
 
-import { EntityRepository, Repository } from 'typeorm';
-import { CreateItemDto } from './dtos/create-item.dto';
+import { EntityRepository, Repository, getConnection } from 'typeorm';
+import { CreateItemDto, UpdateItemDto } from './dtos/_index';
 import { Item } from './item.entity';
 
 @EntityRepository(Item)
@@ -12,6 +12,7 @@ export class ItemRepository extends Repository<Item> {
         const item = this.create();
         item.name = name;
         item.desc = desc;
+        item.active = true;
         try {
             return await item.save();
         } catch (error) {
@@ -21,9 +22,12 @@ export class ItemRepository extends Repository<Item> {
 
     async getAllItems(){
         try {    
-            return await Item.find({ 
-                select: ['name', 'desc', 'createdAt', 'updatedAt'],
-            })
+            return await getConnection()
+                .createQueryBuilder()
+                .select('item')
+                .from(Item, "item")
+                .where("item.active = :active", { active: true })
+                .execute();                
         } catch (error) {
             return error
         }
@@ -31,9 +35,40 @@ export class ItemRepository extends Repository<Item> {
 
     async getItemById(itemId: string){
         try {    
-            return await Item.findOne(itemId, { 
-                select: ['name', 'desc', 'createdAt', 'updatedAt'],
-            })
+            return await getConnection()
+                .createQueryBuilder()
+                .select('item')
+                .from(Item, "item")
+                .where("item.active = :active", { active: true })
+                .andWhere("item.id = :id", { id: itemId })
+                .execute();
+        } catch (error) {
+            return error
+        }
+    }
+    
+    async updateItem(itemId: string, updateItemDto: UpdateItemDto){
+        try {
+            const {name , desc}  = updateItemDto;
+            return await getConnection()
+                .createQueryBuilder()
+                .update('item')
+                .set({ name: name, desc: desc })
+                .where("id = :id", { id: itemId })
+                .execute();
+        } catch (error) {
+            return error
+        }
+    }
+
+    async deleteItem(itemId: string){
+        try {
+            return await getConnection()
+                .createQueryBuilder()
+                .update('item')
+                .set({ active: false })
+                .where("id = :id", { id: itemId })
+                .execute();
         } catch (error) {
             return error
         }

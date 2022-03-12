@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
-import { CreateItemDto } from './dtos/create-item.dto';
+import { Body, Controller, Post, Get, Param, Patch, Delete } from '@nestjs/common';
+import { CreateItemDto, UpdateItemDto } from './dtos/_index';
 import { ItemService } from './item.service';
 
 @Controller('item')
@@ -11,15 +11,26 @@ export class ItemController {
     return await this.itemService.createItem(createItemDto);
   }
 
+  @Get(':id')
+  async getItem(@Param('id') id: string) {
+    return await this.itemService.getItem(id);
+  }
+
   @Get()
   async getAll() {
     return await this.itemService.getAllItems();
   }
 
-  @Get(':id')
-  async getItem(@Param(':id') id: string) {
-    return await this.itemService.getItem(id);
+  @Patch(':id')
+  async updateItem(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto) {
+    return await this.itemService.updateItem(id, updateItemDto);
   }
+
+  @Delete(':id')
+  async deleteItem(@Param('id') id: string) {
+    return await this.itemService.deleteItem(id);
+  }
+  
 }
 
 
