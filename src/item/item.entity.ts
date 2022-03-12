@@ -10,6 +10,9 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, U
     
     @Column({ nullable: false, type: 'varchar' })
     desc: string;
+
+    @Column({ nullable: false, type: 'boolean' })
+    active: Boolean;
   
     @CreateDateColumn()
     createdAt: Date;

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateItemDto } from './dtos/create-item.dto';
+import { CreateItemDto, UpdateItemDto } from './dtos/_index';
 import { ItemRepository } from './item.repository';
 
 @Injectable()
@@ -20,5 +20,13 @@ export class ItemService {
   
   async getItem(itemId: string){
       return this.itemRepository.getItemById(itemId);
+  }
+
+  async updateItem(id: string, updateItemDto: UpdateItemDto){
+    return this.itemRepository.updateItem(id, updateItemDto);
+  }
+
+  async deleteItem(itemId: string){
+    return this.itemRepository.deleteItem(itemId);
   }
 }
