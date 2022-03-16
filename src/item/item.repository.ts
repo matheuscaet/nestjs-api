@@ -8,13 +8,15 @@ export class ItemRepository extends Repository<Item> {
 
     async createItem(createItemDto: CreateItemDto){
         const { name, desc } = createItemDto;
-
-        const item = this.create();
-        item.name = name;
-        item.desc = desc;
-        item.active = true;
         try {
-            return await item.save();
+            return await getConnection()
+                .createQueryBuilder()
+                .insert()
+                .into('item')
+                .values([
+                    { name: name, desc: desc, active: true}
+                ])
+                .execute(); 
         } catch (error) {
             return error
         }
