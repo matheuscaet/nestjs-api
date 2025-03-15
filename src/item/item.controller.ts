@@ -1,10 +1,17 @@
 import { Body, Controller, Post, Get, Param, Patch, Delete } from '@nestjs/common';
 import { CreateItemDto, UpdateItemDto } from './dtos/_index';
 import { ItemService } from './item.service';
+import { GrpcMethod } from '@nestjs/microservices';
+import { ServerUnaryCall } from '@grpc/grpc-js';
 
 @Controller('item')
 export class ItemController {
-    constructor(private itemService: ItemService) {}
+  constructor(private itemService: ItemService) { }
+
+  @GrpcMethod('ItemService', 'FindOne')
+  async findOne(data: any, metadata: any, call: ServerUnaryCall<any, any>) {
+    return await this.itemService.getItem(data?.id);
+  }
 
   @Post()
   async createItem(@Body() createItemDto: CreateItemDto) {
@@ -30,7 +37,7 @@ export class ItemController {
   async deleteItem(@Param('id') id: string) {
     return await this.itemService.deleteItem(id);
   }
-  
+
 }
 
 

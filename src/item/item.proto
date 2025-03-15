@@ -1,0 +1,19 @@
+
+// item/item.proto
+syntax = "proto3";
+
+package item;
+
+service ItemService {
+  rpc FindOne (ItemById) returns (Item) {}
+}
+
+message ItemById {
+  string id = 1;
+}
+
+message Item {
+  string id = 1;
+  string name = 2;
+  string desc = 3;
+}
