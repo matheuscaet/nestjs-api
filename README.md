@@ -2,36 +2,29 @@
 
 Framework TypeScript and NestJs repository.
 
+
+## Environment variables
+
+Copy .env.example rename to .env and fill your database variables.
+
+
 ## Installation
 
 ```bash
-$ npm install
+$ yarn
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ yarn start:prod
 ```
 
 ## License

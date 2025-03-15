@@ -1,7 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
   
   @Entity()
-  export class Item extends BaseEntity {
+  export class ItemEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
@@ -11,12 +11,12 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, U
     @Column({ nullable: false, type: 'varchar' })
     desc: string;
 
-    @Column({ nullable: false, type: 'boolean' })
+    @Column({ nullable: false, type: 'boolean', default: true })
     active: Boolean;
   
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamp' , default: () => 'CURRENT_TIMESTAMP'})
     createdAt: Date;
   
-    @UpdateDateColumn()
+    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     updatedAt: Date;
   }
